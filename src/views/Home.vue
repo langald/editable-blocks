@@ -6,6 +6,7 @@
         :key="block.blockID"
         :index="i"
         @openSetting="toggleSettingBar"
+        @onBlockClick="closeSettingBar"
       />
     </div>
     <setting-bar @closeSetting="toggleSettingBar" />
@@ -27,6 +28,12 @@ export default {
     toggleSettingBar(payload) {
       console.log(payload);
       this.$store.commit("setEditedIndex", payload);
+    },
+    closeSettingBar(payload) {
+      if (this.$store.state.editedIndex !== "closed") {
+        this.$store.commit("setEditedIndex", "closed");
+      }
+      //console.log(e.target.nodeName === "BUTTON");
     }
   }
 };

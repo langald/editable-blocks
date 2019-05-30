@@ -1,7 +1,7 @@
 <template>
   <div class="block" :style="blockStyles">
     <div v-if="isHidden">Ooops! Блок скрыт!</div>
-    <div v-else class="block__content">
+    <div v-else class="block__content" @click="$emit('onBlockClick', index)">
       <div class="block__title" contenteditable>{{ block.bName }}</div>
       <div class="block__text" contenteditable>
         {{ block.bText }}

@@ -1,18 +1,33 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png" />
-    <HelloWorld msg="Welcome to Your Vue.js App" />
+    <div class="blocks">
+      <block
+        v-for="(block, i) in $store.state.blocks"
+        :key="block.blockID"
+        :index="i"
+        @openSetting="toggleSettingBar"
+      />
+    </div>
+    <setting-bar @closeSetting="toggleSettingBar" />
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
-import HelloWorld from "@/components/HelloWorld.vue";
+import Block from "@/components/Block.vue";
+import SettingBar from "@/components/SettingBar.vue";
 
 export default {
   name: "home",
   components: {
-    HelloWorld
+    Block,
+    SettingBar
+  },
+  methods: {
+    toggleSettingBar(payload) {
+      console.log(payload);
+      this.$store.commit("setEditedIndex", payload);
+    }
   }
 };
 </script>

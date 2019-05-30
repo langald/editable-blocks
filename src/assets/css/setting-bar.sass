@@ -1,0 +1,51 @@
+.setting
+  &-bar
+    position: fixed
+    left: 0
+    top: 0
+    width: 0
+    max-width: 400px
+    height: 100vh
+    background: $grey-color
+    padding: 0
+    overflow: hidden
+    transition: width 0.3s
+    &--open
+      width: 100%
+      transition: width 1.5s
+    &__content
+      padding: 30px
+    &__header
+      margin-bottom: 30px
+      display: flex
+      justify-content: space-between
+      align-items: center
+    &__title
+      font-size: 1.8rem
+      font-weight: 700
+      width: 90%
+      color: $blue-color
+    &__btns
+      width: 100%
+      display: flex
+      justify-content: space-between
+      align-items: center
+
+  &-field
+    margin-bottom: 20px
+  &-label
+    color: $blue-color
+    position: relative
+  &-input, &-select
+    display: block
+    width: 150px
+    height: 40px
+    border: none
+    padding: 5px 10px
+    padding-right: 40px
+    border-radius: 4px
+    &-hint
+      position: absolute
+      bottom: 7px
+      right: 10px
+

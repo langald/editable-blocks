@@ -1,0 +1,36 @@
+html, body 
+  font-size: $html-font-size
+a
+  display: inline-block
+
+button:focus 
+  outline: none
+  display: inline-block
+
+#app 
+  font-family: $font-stack
+  font-size: $main-font-size
+  color: $black-color
+
+.button
+  width: 100px
+  height: 40px
+  background: $white-color
+  border: 2px solid $grey-color
+  border-radius: 4px
+  font-size: 1.2rem
+  cursor: pointer
+  &--abs
+    position: absolute
+    top: 20px
+    right: 30px
+
+.close-button
+  width: 20px
+  height: 20px
+  background: url('./assets/img/burger-close.svg') no-repeat center center
+  background-size: contain
+  border: none
+  cursor: pointer
+
+

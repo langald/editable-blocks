@@ -28,7 +28,7 @@
               :type="setting.stringType === 'int' ? 'number' : 'text'"
               class="setting-input"
               :value="setting.fieldValue"
-              @input="setValue(i, $event)"
+              @change="setValue(i, $event)"
               required
             />
             <div class="setting-input-hint">
@@ -38,7 +38,7 @@
           <div v-if="setting.filedType === 'select'">
             <select
               :value="setting.fieldValue"
-              @input="setValue(i, $event)"
+              @change="setValue(i, $event)"
               class="setting-select"
             >
               <option
@@ -56,16 +56,11 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
-import { mapActions } from "vuex";
+import { mapState, mapMutations, mapActions } from "vuex";
 
 export default {
   name: "SettingBar",
-  data() {
-    return {
-      editedInfo: {}
-    };
-  },
+
   computed: {
     ...mapState(["editedIndex"]),
     editedBlock() {
@@ -74,21 +69,15 @@ export default {
         : this.$store.state.blocks[this.editedIndex];
     }
   },
-  watch: {
-    editedIndex: function(val) {
-      this.editedInfo =
-        val === "closed" ? {} : JSON.parse(JSON.stringify(this.editedBlock));
-    }
-  },
+
   methods: {
+    ...mapMutations(["setFieldValue"]),
     ...mapActions(["sendEditBlock"]),
     saveSetting() {
-      //console.log(this.editedInfo);
-      this.sendEditBlock(JSON.parse(JSON.stringify(this.editedInfo)));
+      this.sendEditBlock();
     },
     setValue(i, e) {
-      console.log(i, e);
-      this.editedInfo.settings[i].fieldValue = e.target.value;
+      this.setFieldValue({ i, value: e.target.value });
     }
   }
 };

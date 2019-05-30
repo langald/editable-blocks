@@ -6,10 +6,10 @@
         :key="block.blockID"
         :index="i"
         @openSetting="toggleSettingBar"
-        @onBlockClick="closeSettingBar"
       />
     </div>
     <setting-bar @closeSetting="toggleSettingBar" />
+    <loading v-if="$store.state.loading" />
   </div>
 </template>
 
@@ -17,23 +17,19 @@
 // @ is an alias to /src
 import Block from "@/components/Block.vue";
 import SettingBar from "@/components/SettingBar.vue";
+import Loading from "@/components/Loading.vue";
 
 export default {
   name: "home",
   components: {
     Block,
-    SettingBar
+    SettingBar,
+    Loading
   },
   methods: {
     toggleSettingBar(payload) {
-      console.log(payload);
+      //console.log(payload);
       this.$store.commit("setEditedIndex", payload);
-    },
-    closeSettingBar(payload) {
-      if (this.$store.state.editedIndex !== "closed") {
-        this.$store.commit("setEditedIndex", "closed");
-      }
-      //console.log(e.target.nodeName === "BUTTON");
     }
   }
 };

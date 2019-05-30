@@ -1,11 +1,23 @@
 <template>
   <div class="block" :style="blockStyles">
     <div v-if="isHidden">Ooops! Блок скрыт!</div>
-    <div v-else class="block__content" @click="$emit('onBlockClick', index)">
-      <div class="block__title" contenteditable>{{ block.bName }}</div>
-      <div class="block__text" contenteditable>
-        {{ block.bText }}
-      </div>
+    <div v-else class="block__content">
+      <div
+        class="block__title"
+        contenteditable="true"
+        ref="bName"
+        @input="setText($event, 'bName')"
+        v-once
+        v-text="bName"
+      ></div>
+      <div
+        class="block__text"
+        contenteditable="true"
+        ref="bText"
+        @input="setText($event, 'bText')"
+        v-once
+        v-text="bText"
+      ></div>
     </div>
     <button class="button button--abs" @click="$emit('openSetting', index)">
       Настройки
@@ -14,6 +26,8 @@
 </template>
 
 <script>
+import { mapMutations } from "vuex";
+
 export default {
   name: "Block",
   props: {
@@ -25,6 +39,12 @@ export default {
   computed: {
     block() {
       return this.$store.state.blocks[this.index];
+    },
+    bName() {
+      return this.block.bName;
+    },
+    bText() {
+      return this.block.bText;
     },
     bgColor() {
       const setting = this.getSettingObj(40);
@@ -55,9 +75,30 @@ export default {
       return setting ? setting.fieldValue === "1" : false;
     }
   },
+  watch: {
+    bText: function(newValue) {
+      if (document.activeElement == this.$refs.bText) {
+        return;
+      }
+
+      this.$refs.bText.innerHTML = newValue;
+    },
+    bName: function(newValue) {
+      if (document.activeElement == this.$refs.bName) {
+        return;
+      }
+
+      this.$refs.bName.innerHTML = newValue;
+    }
+  },
   methods: {
+    ...mapMutations(["setBlockValue"]),
     getSettingObj(id) {
       return this.block.settings.find(item => item.ID === id);
+    },
+    setText(e, type) {
+      this.$emit("openSetting", this.index);
+      this.setBlockValue({ type, value: e.target.innerText });
     }
   }
 };

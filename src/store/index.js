@@ -67,28 +67,41 @@ export default new Vuex.Store({
         ]
       }
     ],
-    editedIndex: "closed"
+    editedIndex: "closed",
+    loading: false
   },
   mutations: {
     setEditedIndex(state, payload) {
       state.editedIndex = payload;
     },
-    setEditBlock(state, payload) {
+    setFieldValue(state, payload) {
+      state.blocks[state.editedIndex].settings[payload.i].fieldValue =
+        payload.value;
       state.blocks = [...state.blocks];
-      state.blocks[state.editedIndex] = payload;
+    },
+    setBlockValue(state, payload) {
+      //console.log(payload);
+      state.blocks[state.editedIndex][payload.type] = payload.value;
+    },
+    setLoading(state, payload) {
+      state.loading = payload;
     }
   },
   actions: {
-    async sendEditBlock(store, payload) {
+    async sendEditBlock(store) {
       const url = "https://jsonplaceholder.typicode.com/posts";
 
-      store.commit("setEditBlock", payload);
+      const data = store.state.blocks[store.state.editedIndex];
+
+      store.commit("setLoading", true);
 
       try {
-        const result = await axios.post(url, payload);
+        const result = await axios.post(url, data);
         //console.log(result);
+        store.commit("setLoading", false);
       } catch (e) {
         console.log(e.message);
+        store.commit("setLoading", false);
       }
     }
   },
